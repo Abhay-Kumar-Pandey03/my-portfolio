@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --font-head: 'Sora', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-sky:        #EDF5FD;
+  --color-sky-light:  #F5FAFE;
+  --color-sky-mid:    #C5DFF6;
+  --color-sky-deep:   #93C4EE;
+  --color-blue:       #2E8FE0;
+  --color-blue-b:     #3FA3F5;
+  --color-blue-dk:    #1467B8;
+  --color-navy:       #0B2541;
+  --color-navy-2:     #163859;
+  --color-muted:      #5E7E9E;
+  --color-bdr:        #D4E8F8;
+
+  --shadow-card: 0 2px 20px rgba(46,143,224,.09);
+  --shadow-md:   0 8px 40px rgba(46,143,224,.15);
+  --shadow-blue: 0 4px 18px rgba(46,143,224,.38);
+
+  --animate-blink: blink 0.9s step-end infinite;
+  --animate-typing: typing 0.5s step-end infinite;
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+}
+
+/* ── GLOBAL ── */
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; transition: background 0.3s, color 0.3s; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #C8DFEF; }
+::-webkit-scrollbar-thumb { background: #7AAED4; border-radius: 3px; }
+
+/* ── LIGHT MODE ── */
+:root {
+  --bg-page:    linear-gradient(160deg, #C8DFFB 0%, #DAE9F8 30%, #EAF3FC 60%, #D4E8F9 100%);
+  --bg-section: rgba(255,255,255,0.55);
+  --bg-alt:     rgba(214,234,251,0.45);
+  --text-main:  #0B2541;
+  --text-muted: #4A7A9B;
+  --border-col: transparent;
+  --card-bg:    rgba(255,255,255,0.8);
+  --input-bg:   rgba(255,255,255,0.6);
+  --input-bdr:  rgba(46,143,224,0.2);
+  --input-text: #0B2541;
+  --input-ph:   #93C4EE;
+  --sidebar-bg: rgba(255,255,255,0.4);
+}
+
+/* ── DARK MODE ── */
+html.dark {
+  --bg-page:    linear-gradient(160deg, #061524 0%, #091D30 30%, #0C2238 60%, #081A2B 100%);
+  --bg-section: rgba(15,35,58,0.7);
+  --bg-alt:     rgba(9,25,42,0.6);
+  --text-main:  #D8EEFB;
+  --text-muted: #6FA8CE;
+  --border-col: transparent;
+  --card-bg:    rgba(15,35,58,0.85);
+  --input-bg:   rgba(255,255,255,0.06);
+  --input-bdr:  rgba(255,255,255,0.1);
+  --input-text: #D8EEFB;
+  --input-ph:   rgba(255,255,255,0.25);
+  --sidebar-bg: rgba(6,21,36,0.6);
+}
+
+/* ── PAGE BG ── */
+body {
+  background: var(--bg-page);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar-bg { background: var(--sidebar-bg); border-right: none; }
+
+/* ── SECTION ── */
+.section-white { background: var(--bg-section); }
+.section-alt   { background: var(--bg-alt); }
+
+/* ── BLOBS ── */
+.hero-blob-r    { background: radial-gradient(circle, rgba(162,210,248,.25) 0%, transparent 70%); }
+.hero-blob-l    { background: radial-gradient(circle, rgba(46,143,224,.06) 0%, transparent 70%); }
+.contact-blob-r { background: radial-gradient(circle, rgba(46,143,224,.18) 0%, transparent 70%); }
+.contact-blob-l { background: radial-gradient(circle, rgba(20,103,184,.12) 0%, transparent 70%); }
+
+/* ── SKILL BAR ── */
+.skill-fill {
+  background: linear-gradient(90deg, #75befa, #85b0d2);
+  border-radius: 3px;
+  height: 100%;
+}
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── REVEAL FROM LEFT ── */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-left.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── TYPING CURSOR ── */
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: #2E8FE0;
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: blink 0.7s step-end infinite;
+}
+
+/* ── THEME INPUT ── */
+.theme-input {
+  background: var(--input-bg);
+  border-color: var(--input-bdr);
+  color: var(--input-text);
+}
+.theme-input::placeholder { color: var(--input-ph); }
+.theme-input:focus { border-color: #2E8FE0; outline: none; }
+
+/* ── DARK SCROLLBAR ── */
+html.dark ::-webkit-scrollbar-track { background: #061524; }
+html.dark ::-webkit-scrollbar-thumb { background: #2E8FE0; }
