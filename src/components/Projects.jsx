@@ -22,7 +22,7 @@ export default function Projects() {
             <div className="flex justify-between items-end flex-wrap gap-5 mb-12">
                 <div>
                     <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[3px]
-                 uppercase px-5 py-2 mb-4 rounded-full border transition-all"
+                        uppercase px-5 py-2 mb-4 rounded-full border transition-all"
                         style={{
                             color: '#3FA3F5',
                             background: 'rgba(46,143,224,0.08)',
@@ -42,7 +42,7 @@ export default function Projects() {
                 </div>
                 <a href={GITHUB_PROFILE_URL} target="_blank" rel="noreferrer"
                     className="px-6 py-2.5 rounded-full text-sm font-medium border
-                      hover:border-blue hover:text-blue transition-all whitespace-nowrap"
+                    hover:border-blue hover:text-blue transition-all whitespace-nowrap"
                     style={{
                         background: 'var(--bg-section)',
                         color: 'var(--text-main)',
@@ -56,7 +56,7 @@ export default function Projects() {
                 {projects.map((p) => (
                     <div key={p.name}
                         className="rounded-2xl overflow-hidden hover:-translate-y-2
-           transition-all flex flex-col h-full"
+                            transition-all flex flex-col h-full"
                         style={{
                             background: 'rgba(15,40,70,0.85)',
                             border: '1px solid rgba(46,143,224,0.2)',
@@ -73,7 +73,7 @@ export default function Projects() {
 
                         <div className={`h-44 flex items-center justify-center text-6xl relative bg-gradient-to-br ${p.bg}`}>
                             <span className="absolute top-3 right-3 bg-white/85 backdrop-blur text-[11px]
-                               font-bold text-navy-2 px-3 py-1 rounded-full border border-white/60">
+                                font-bold text-navy-2 px-3 py-1 rounded-full border border-white/60">
                                 {p.badge}
                             </span>
                             {p.emoji}

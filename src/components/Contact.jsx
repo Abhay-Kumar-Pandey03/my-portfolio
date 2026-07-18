@@ -121,7 +121,7 @@ export default function Contact() {
         <div>
           {/* Tag */}
           <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[3px]
-                           uppercase px-5 py-2 mb-6 rounded-full border"
+                            uppercase px-5 py-2 mb-6 rounded-full border"
             style={{
               color: '#3FA3F5',
               background: 'rgba(46,143,224,0.08)',
@@ -217,7 +217,7 @@ export default function Contact() {
               <textarea rows={5} name="message" placeholder="Tell me about the opportunity or just say hi..."
                 value={form.message} onChange={handleChange} required
                 className="theme-input rounded-xl px-4 py-3 text-sm border
-                                   transition-colors resize-none" />
+                                    transition-colors resize-none" />
             </div>
 
             {/* Honeypot — hidden from real users via CSS, bots that auto-fill every field get caught */}
@@ -241,7 +241,7 @@ export default function Contact() {
 
             <button type="submit" disabled={status === 'sending' || status === 'sent'}
               className="w-full py-3.5 rounded-xl text-sm font-bold text-white
-                               border-0 cursor-pointer transition-all mt-2 disabled:cursor-not-allowed"
+                                border-0 cursor-pointer transition-all mt-2 disabled:cursor-not-allowed"
               style={{
                 background: status === 'sent' ? '#0F6E4A' : status === 'limited' ? '#B45309' : '#2E8FE0',
                 boxShadow: status === 'sent' || status === 'limited' ? 'none' : '0 4px 18px rgba(46,143,224,0.38)',
