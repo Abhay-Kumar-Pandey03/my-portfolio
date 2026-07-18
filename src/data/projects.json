@@ -1,0 +1,106 @@
+[
+  {
+    "id": "devconnects",
+    "name": "DevConnects",
+    "emoji": "🧑‍💻",
+    "badge": "MERN",
+    "type": "Full Stack App",
+    "bg": "from-[#CEEAF9] to-[#96CBF0]",
+    "demo": null,
+    "repos": [
+      {
+        "owner": "Abhay-Kumar-Pandey03",
+        "repo": "devConnects-frontend",
+        "role": "primary",
+        "label": "Frontend Repo"
+      },
+      {
+        "owner": "Abhay-Kumar-Pandey03",
+        "repo": "devConnects",
+        "role": "secondary",
+        "label": "Backend Repo"
+      }
+    ],
+    "desc": "An AI-powered developer networking platform with Gemini-based profile generation and semantic compatibility matching, real-time chat via Socket.IO, Razorpay premium subscriptions, and an admin dashboard. Deployed on AWS EC2 with NGINX and PM2.",
+    "stack": [
+      "React",
+      "Redux Toolkit",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Socket.IO",
+      "Gemini API",
+      "Razorpay",
+      "AWS"
+    ],
+    "lastSynced": "2026-07-18T20:28:09.560Z",
+    "autoSync": {
+      "desc": false,
+      "stack": false
+    },
+    "lastRepoUpdate": "2026-07-18T17:50:40Z"
+  },
+  {
+    "id": "mealmate",
+    "name": "MealMate",
+    "emoji": "🍔",
+    "badge": "MERN",
+    "type": "Full Stack App",
+    "bg": "from-[#B8DDF8] to-[#6DB9EF]",
+    "demo": null,
+    "repos": [
+      {
+        "owner": "Abhay-Kumar-Pandey03",
+        "repo": "MealMate",
+        "role": "primary",
+        "label": "Code"
+      }
+    ],
+    "desc": "A full-stack food ordering platform where users browse restaurants, manage a persistent cart, place orders, and reach support through a contact system. Includes JWT authentication and a protected admin dashboard for managing customer queries.",
+    "stack": [
+      "React",
+      "Redux Toolkit",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "JWT"
+    ],
+    "lastSynced": "2026-07-18T20:28:09.598Z",
+    "autoSync": {
+      "desc": false,
+      "stack": false
+    },
+    "lastRepoUpdate": "2026-07-10T05:00:23Z"
+  },
+  {
+    "id": "streamit",
+    "name": "StreamIt",
+    "emoji": "🎬",
+    "badge": "MERN",
+    "type": "Backend / REST API",
+    "bg": "from-[#D6EDFC] to-[#A0D2F4]",
+    "demo": null,
+    "repos": [
+      {
+        "owner": "Abhay-Kumar-Pandey03",
+        "repo": "StreamIt",
+        "role": "primary",
+        "label": "Code"
+      }
+    ],
+    "desc": "Scalable REST APIs for a movie streaming app with CRUD operations and efficient MongoDB schema design. Includes backend routing, middleware, data validation, and secure request handling with Express and Node.js.",
+    "stack": [
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "REST API"
+    ],
+    "lastSynced": "2026-07-18T20:28:09.633Z",
+    "autoSync": {
+      "desc": false,
+      "stack": false
+    },
+    "lastRepoUpdate": "2026-04-04T20:39:55Z"
+  }
+]

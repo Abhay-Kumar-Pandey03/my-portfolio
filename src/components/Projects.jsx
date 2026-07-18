@@ -1,31 +1,18 @@
-import { GITHUB_PROFILE_URL, DEVCONNECTS_GITHUB, DEVCONNECTS_FRONTEND_GITHUB, MEALMATE_GITHUB, STREAMIT_GITHUB } from '../utils/constants'
+import { GITHUB_PROFILE_URL } from '../utils/constants'
+import projectsData from '../data/projects.json'
 
-const projects = [
-    {
-        emoji: '🧑‍💻', badge: 'MERN', type: 'Full Stack App',
-        name: 'DevConnects',
-        desc: 'An AI-powered developer networking platform with Gemini-based profile generation and semantic compatibility matching, real-time chat via Socket.IO, Razorpay premium subscriptions, and an admin dashboard. Deployed on AWS EC2 with NGINX and PM2.',
-        stack: ['React', 'Redux Toolkit', 'Node.js', 'Express', 'MongoDB', 'Socket.IO', 'Gemini API', 'Razorpay', 'AWS'],
-        bg: 'from-[#CEEAF9] to-[#96CBF0]',
-        demo: null, code: DEVCONNECTS_FRONTEND_GITHUB, code2: DEVCONNECTS_GITHUB, code2Label: 'Backend Repo',
-    },
-    {
-        emoji: '🍔', badge: 'MERN', type: 'Full Stack App',
-        name: 'MealMate',
-        desc: 'A full-stack food ordering platform where users browse restaurants, manage a persistent cart, place orders, and reach support through a contact system. Includes JWT authentication and a protected admin dashboard for managing customer queries.',
-        stack: ['React', 'Redux Toolkit', 'Node.js', 'Express', 'MongoDB', 'JWT'],
-        bg: 'from-[#B8DDF8] to-[#6DB9EF]',
-        demo: null, code: MEALMATE_GITHUB,
-    },
-    {
-        emoji: '🎬', badge: 'MERN', type: 'Backend / REST API',
-        name: 'StreamIt',
-        desc: 'Scalable REST APIs for a movie streaming app with CRUD operations and efficient MongoDB schema design. Includes backend routing, middleware, data validation, and secure request handling with Express and Node.js.',
-        stack: ['React', 'Node.js', 'Express', 'MongoDB', 'REST API'],
-        bg: 'from-[#D6EDFC] to-[#A0D2F4]',
-        demo: null, code: STREAMIT_GITHUB,
-    },
-]
+const repoUrl = (owner, repo) => `https://github.com/${owner}/${repo}`
+
+const projects = projectsData.map(p => {
+    const primary = p.repos.find(r => r.role === 'primary') || p.repos[0]
+    const secondary = p.repos.find(r => r.role === 'secondary')
+    return {
+        ...p,
+        code: primary ? repoUrl(primary.owner, primary.repo) : null,
+        code2: secondary ? repoUrl(secondary.owner, secondary.repo) : null,
+        code2Label: secondary?.label || 'Related Repo',
+    }
+})
 
 export default function Projects() {
     return (
@@ -93,7 +80,14 @@ export default function Projects() {
                         </div>
 
                         <div className="p-5 flex flex-col flex-1">
-                            <p className="text-[11px] font-bold uppercase tracking-wider text-blue mb-2">{p.type}</p>
+                            <div className="flex items-center justify-between mb-2">
+                                <p className="text-[11px] font-bold uppercase tracking-wider text-blue">{p.type}</p>
+                                {p.lastRepoUpdate && (
+                                    <p className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>
+                                        Updated {new Date(p.lastRepoUpdate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                                    </p>
+                                )}
+                            </div>
                             <p className="font-head font-bold text-base mb-2"
                                 style={{ color: 'var(--text-main)' }}>{p.name}</p>
                             <p className="text-xs leading-relaxed flex-1"

@@ -1,3 +1,5 @@
+import { RESUME_VIEW_URL } from '../utils/constants'
+
 const info = [
     { label: 'Name', value: 'Abhay Kumar Pandey', color: '' },
     { label: 'Preferred Stack', value: 'MERN Stack', color: '' },
@@ -51,7 +53,7 @@ export default function About() {
                         ))}
                     </div>
 
-                    <a href="/resume.pdf" target="_blank"
+                    <a href={RESUME_VIEW_URL} target="_blank" rel="noreferrer"
                         className="inline-flex items-center gap-2 bg-navy text-white px-7 py-3 rounded-full
                         text-sm font-semibold hover:bg-navy-2 hover:-translate-y-0.5 transition-all">
                         View Resume
