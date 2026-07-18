@@ -1,6 +1,16 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { SiGmail } from 'react-icons/si'
 import { FaPhone } from 'react-icons/fa'
+import emailjs from '@emailjs/browser'
+import ReCAPTCHA from 'react-google-recaptcha'
+
+const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+const RECAPTCHA_SITE_KEY  = import.meta.env.VITE_RECAPTCHA_SITE_KEY
+
+const RATE_LIMIT_KEY = 'contact_last_sent_at'
+const RATE_LIMIT_MS  = 60_000 // 1 submission per 60s per browser
 
 const contactLinks = [
   {
@@ -15,8 +25,84 @@ const contactLinks = [
   },
 ]
 
+const initialForm = { name: '', email: '', message: '', company: '' } // 'company' = honeypot
+
 export default function Contact() {
-  const [sent, setSent] = useState(false)
+  const [form, setForm] = useState(initialForm)
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error | limited
+  const [errorMsg, setErrorMsg] = useState('')
+  const [captchaToken, setCaptchaToken] = useState(null)
+  const captchaRef = useRef(null)
+
+  const handleChange = e => {
+    const { name, value } = e.target
+    setForm(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setErrorMsg('')
+
+    // Honeypot: real users never fill this hidden field. If it's filled, it's a bot.
+    if (form.company) {
+      setStatus('sent') // fail silently — pretend it worked so bots don't adapt
+      return
+    }
+
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      setErrorMsg('Please fill in all fields.')
+      return
+    }
+
+    if (!captchaToken) {
+      setErrorMsg('Please complete the "I\'m not a robot" check.')
+      return
+    }
+
+    // Client-side rate limit: 1 submission per minute per browser
+    const lastSent = Number(localStorage.getItem(RATE_LIMIT_KEY) || 0)
+    if (Date.now() - lastSent < RATE_LIMIT_MS) {
+      setStatus('limited')
+      return
+    }
+
+    try {
+      setStatus('sending')
+
+      // EmailJS verifies this token server-side against your reCAPTCHA secret key
+      // (configured once in the EmailJS dashboard under Account > Security) before sending.
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          message: form.message,
+          'g-recaptcha-response': captchaToken,
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      )
+
+      localStorage.setItem(RATE_LIMIT_KEY, String(Date.now()))
+      setForm(initialForm)
+      setStatus('sent')
+    } catch (err) {
+      console.error('EmailJS send failed:', err)
+      setStatus('error')
+      setErrorMsg('Something went wrong sending your message. Please try emailing me directly.')
+    } finally {
+      captchaRef.current?.reset()
+      setCaptchaToken(null)
+    }
+  }
+
+  const buttonLabel = {
+    idle: 'Send Message →',
+    sending: 'Sending…',
+    sent: "✓ Sent! I'll be in touch soon.",
+    limited: 'Please wait a moment before sending again',
+    error: 'Send Message →',
+  }[status]
 
   return (
     <section id="contact" className="reveal-left px-[5vw] py-24 relative overflow-hidden
@@ -107,18 +193,20 @@ export default function Contact() {
             Send a Message
           </h3>
 
-          <div className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-semibold uppercase tracking-wider"
                   style={{ color: '#3FA3F5' }}>Your Name</label>
-                <input type="text" placeholder="John Doe"
+                <input type="text" name="name" placeholder="John Doe"
+                  value={form.name} onChange={handleChange} required
                   className="theme-input rounded-xl px-4 py-3 text-sm border transition-colors" />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-semibold uppercase tracking-wider"
                   style={{ color: '#3FA3F5' }}>Email Address</label>
-                <input type="email" placeholder="john@example.com"
+                <input type="email" name="email" placeholder="john@example.com"
+                  value={form.email} onChange={handleChange} required
                   className="theme-input rounded-xl px-4 py-3 text-sm border transition-colors" />
               </div>
             </div>
@@ -126,23 +214,44 @@ export default function Contact() {
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-wider"
                 style={{ color: '#3FA3F5' }}>Message</label>
-              <textarea rows={5} placeholder="Tell me about the opportunity or just say hi..."
+              <textarea rows={5} name="message" placeholder="Tell me about the opportunity or just say hi..."
+                value={form.message} onChange={handleChange} required
                 className="theme-input rounded-xl px-4 py-3 text-sm border
                                    transition-colors resize-none" />
             </div>
 
-            <button onClick={() => setSent(true)}
+            {/* Honeypot — hidden from real users via CSS, bots that auto-fill every field get caught */}
+            <input type="text" name="company" value={form.company} onChange={handleChange}
+              tabIndex={-1} autoComplete="off"
+              style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+              aria-hidden="true" />
+
+            <div>
+              <ReCAPTCHA
+                ref={captchaRef}
+                sitekey={RECAPTCHA_SITE_KEY}
+                onChange={token => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
+              />
+            </div>
+
+            {errorMsg && (
+              <p className="text-xs font-medium" style={{ color: '#EF4444' }}>{errorMsg}</p>
+            )}
+
+            <button type="submit" disabled={status === 'sending' || status === 'sent'}
               className="w-full py-3.5 rounded-xl text-sm font-bold text-white
-                               border-0 cursor-pointer transition-all mt-2"
+                               border-0 cursor-pointer transition-all mt-2 disabled:cursor-not-allowed"
               style={{
-                background: sent ? '#0F6E4A' : '#2E8FE0',
-                boxShadow: sent ? 'none' : '0 4px 18px rgba(46,143,224,0.38)',
+                background: status === 'sent' ? '#0F6E4A' : status === 'limited' ? '#B45309' : '#2E8FE0',
+                boxShadow: status === 'sent' || status === 'limited' ? 'none' : '0 4px 18px rgba(46,143,224,0.38)',
+                opacity: status === 'sending' ? 0.7 : 1,
               }}
-              onMouseEnter={e => { if (!sent) e.currentTarget.style.background = '#1467B8' }}
-              onMouseLeave={e => { if (!sent) e.currentTarget.style.background = '#2E8FE0' }}>
-              {sent ? '✓ Sent! I\'ll be in touch soon.' : 'Send Message →'}
+              onMouseEnter={e => { if (status === 'idle' || status === 'error') e.currentTarget.style.background = '#1467B8' }}
+              onMouseLeave={e => { if (status === 'idle' || status === 'error') e.currentTarget.style.background = '#2E8FE0' }}>
+              {buttonLabel}
             </button>
-          </div>
+          </form>
         </div>
 
       </div>

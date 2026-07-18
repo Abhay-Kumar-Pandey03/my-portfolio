@@ -10,25 +10,34 @@ const skillGroups = [
   {
     icon: '🌐', title: 'Web Development',
     skills: [
-      { name: 'React.js',      pct: 67 },
+      { name: 'React.js',      pct: 70 },
       { name: 'Node.js',       pct: 78 },
       { name: 'Express.js',    pct: 75 },
-      { name: 'REST APIs',     pct: 75 },
-      { name: 'Redux Toolkit', pct: 60 },
+      { name: 'REST APIs',     pct: 78 },
+      { name: 'Redux Toolkit', pct: 68 },
+      { name: 'Socket.IO',     pct: 65 },
     ],
   },
   {
     icon: '🗄️', title: 'Database',
     skills: [
-      { name: 'MongoDB', pct: 72 },
+      { name: 'MongoDB', pct: 75 },
       { name: 'MySQL',   pct: 83 },
+    ],
+  },
+  {
+    icon: '🔐', title: 'Auth & Integrations',
+    skills: [
+      { name: 'JWT & bcrypt',        pct: 75 },
+      { name: 'Razorpay Payments',   pct: 65 },
+      { name: 'Google Gemini API',   pct: 60 },
     ],
   },
   {
     icon: '☁️', title: 'Platforms & Tools',
     skills: [
       { name: 'GitHub',  pct: 80 },
-      { name: 'AWS EC2', pct: 60 },
+      { name: 'AWS EC2 / SES', pct: 62 },
       { name: 'Postman', pct: 86 },
       { name: 'Jest',    pct: 60 },
     ],
@@ -44,6 +53,8 @@ const tools = [
   { icon: '🗄️', name: 'MySQL' },
   { icon: '🍃', name: 'MongoDB' },
   { icon: '⚛️', name: 'React' },
+  { icon: '🔌', name: 'Socket.IO' },
+  { icon: '✨', name: 'Gemini API' },
 ]
 
 function SkillBar({ name, pct }) {

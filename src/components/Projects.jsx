@@ -1,21 +1,21 @@
-import { GITHUB_PROFILE_URL, DEVCONNECTS_GITHUB, SWIGGY_GITHUB, STREAMIT_GITHUB } from '../utils/constants'
+import { GITHUB_PROFILE_URL, DEVCONNECTS_GITHUB, DEVCONNECTS_FRONTEND_GITHUB, MEALMATE_GITHUB, STREAMIT_GITHUB } from '../utils/constants'
 
 const projects = [
     {
         emoji: '🧑‍💻', badge: 'MERN', type: 'Full Stack App',
         name: 'DevConnects',
-        desc: 'A full-stack developer networking platform with real-time communication via WebSockets, RESTful API design, Razorpay payment integration, and email automation using AWS SES. Deployed on AWS EC2 with NGINX and PM2.',
-        stack: ['React', 'Node.js', 'MongoDB', 'WebSockets', 'AWS', 'Razorpay'],
+        desc: 'An AI-powered developer networking platform with Gemini-based profile generation and semantic compatibility matching, real-time chat via Socket.IO, Razorpay premium subscriptions, and an admin dashboard. Deployed on AWS EC2 with NGINX and PM2.',
+        stack: ['React', 'Redux Toolkit', 'Node.js', 'Express', 'MongoDB', 'Socket.IO', 'Gemini API', 'Razorpay', 'AWS'],
         bg: 'from-[#CEEAF9] to-[#96CBF0]',
-        demo: null, code: DEVCONNECTS_GITHUB,
+        demo: null, code: DEVCONNECTS_FRONTEND_GITHUB, code2: DEVCONNECTS_GITHUB, code2Label: 'Backend Repo',
     },
     {
-        emoji: '🍔', badge: 'React', type: 'Frontend App',
-        name: 'Swiggy Clone',
-        desc: 'A responsive Swiggy-inspired food delivery app built with React 19 and modern component-based architecture. Features Redux Toolkit for state management, React Router for navigation, and full cart functionality.',
-        stack: ['React', 'Redux Toolkit', 'React Router', 'Tailwind CSS', 'Jest'],
+        emoji: '🍔', badge: 'MERN', type: 'Full Stack App',
+        name: 'MealMate',
+        desc: 'A full-stack food ordering platform where users browse restaurants, manage a persistent cart, place orders, and reach support through a contact system. Includes JWT authentication and a protected admin dashboard for managing customer queries.',
+        stack: ['React', 'Redux Toolkit', 'Node.js', 'Express', 'MongoDB', 'JWT'],
         bg: 'from-[#B8DDF8] to-[#6DB9EF]',
-        demo: null, code: SWIGGY_GITHUB,
+        demo: null, code: MEALMATE_GITHUB,
     },
     {
         emoji: '🎬', badge: 'MERN', type: 'Backend / REST API',
@@ -123,6 +123,16 @@ export default function Projects() {
                                         </a>
                                     )}
                                 </div>
+                                {p.code2 && (
+                                    <a href={p.code2} target="_blank" rel="noreferrer"
+                                        className="block mt-2 text-center text-[11px] font-medium underline decoration-dotted
+                    transition-colors"
+                                        style={{ color: 'var(--text-muted)' }}
+                                        onMouseEnter={e => { e.currentTarget.style.color = '#3FA3F5' }}
+                                        onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)' }}>
+                                        {p.code2Label || 'Related Repo'} ↗
+                                    </a>
+                                )}
                             </div>
                         </div>
                     </div>
